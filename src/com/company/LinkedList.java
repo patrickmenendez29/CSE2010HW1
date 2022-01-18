@@ -6,35 +6,57 @@ class LinkedList {
     Node tail = null;
     String productName;
 
-    public void insert(Node node){
-
-        head = insertRec(head, node);
-
-    }
-
-    private Node insertRec(Node current, Node node){
-        if (current == null){
-            return node;
-        } else {
-            current.next = insertRec(current.next, node);
-            return current;
+    public void insertInOrder(Node node){
+        if (head == null){
+            head = node;
+            return;
         }
 
-    }
-
-    public void remove(Node node){
-        removeRec(head, node);
-    }
-
-    private void removeRec(Node current, Node node){
-        if (current.next == node){
-            current.next = null;
-            tail = current;
-
-        } else {
-            removeRec(current.next, node);
+        if (head.getTotalCost() > node.getTotalCost()){
+            node.next = head;
+            head = node;
+            return;
         }
+
+            Node current = head;
+            Node next = current.next;
+
+            while (next.next != null){
+
+                if (next.getTotalCost() > node.getTotalCost()){
+                    // change pointers
+                    node.next = current.next;
+                    current.next = node;
+                }
+                current = current.next;
+                next = next.next;
+            }
+            next.next = node;
+
+
     }
+
+   public void delete(Node node){
+        if (head == null){
+            return;
+        }
+
+        if (head == node){
+            head = head.next;
+            return;
+        }
+        Node current = head;
+
+        while (current.next != null){
+            if (current.next == node){
+                Node next = current.next;
+                current.next = next.next;
+                return;
+            }
+        }
+   }
+
+
 
     public void pop() {
         Node current = head;

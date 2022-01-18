@@ -8,18 +8,21 @@ class Main {
     public static void main(String[] args) {
 
 
+        /*
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()){
             parseArgument(scanner.nextLine());
         }
+        */
 
-        Node amazon = new Node("Amazon", 10, 10);
-        Node apple = new Node("Apple", 10, 10);
-        Node microsoft = new Node("Microsoft",  10, 10);
+
+        Node amazon = new Node("Amazon", 15, 10);
+        Node apple = new Node("Apple", 20, 10);
+        Node microsoft = new Node("Microsoft",  100, 10);
         LinkedList list = new LinkedList();
-        list.insert(amazon);
-        list.insert(apple);
-        list.insert(microsoft);
+        list.insertInOrder(amazon);
+        list.insertInOrder(apple);
+        list.insertInOrder(microsoft);
         list.printList();
 
     }
@@ -44,27 +47,28 @@ class Main {
         String seller;
 
         switch (command) {
-            case "IncreaseInventory" -> {
+            case "IncreaseInventory":
                 String quantity = args[3];
                 products.increaseInventory(command, quantity);
-            }
-            case "CustomerPurchase" -> {
+            break;
+            case "CustomerPurchase":
                 seller = args[1];
                 String amount = args[3];
                 products.customerPurchase(seller, amount);
-            }
-            case "SetShippingCost" -> {
+            break;
+            case "SetShippingCost":
                 seller = args[1];
                 String shippingCost = args[2];
                 String minimumForFreeShipping = args[3];
                 products.setShippingCost(seller, shippingCost, minimumForFreeShipping);
-            }
-            case "SetProductPrice" -> {
+            break;
+            case "SetProductPrice":
                 seller = args[1];
                 String price = args[3];
                 products.setProductPrice(seller, price);
-            }
-            default -> System.out.println("Parsing error, unknown command");
+            break;
+            default:
+                System.out.println("Parsing error, unknown command");
         }
     }
 
