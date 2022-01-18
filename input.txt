@@ -1,0 +1,15 @@
+SetProductPrice appleIPhone amazon 499
+SetProductPrice appleIPhone applestore 550
+SetProductPrice appleIPhone bestbuy 515
+SetProductPrice appleIPhone walmart 450
+SetShippingCost amazon 10 20
+SetShippingCost applestore 15 50
+SetShippingCost bestbuy 5 35
+SetShippingCost walmart 10 10
+IncreaseInventory appleIPhone amazon 10000
+IncreaseInventory appleIPhone applestore 500
+IncreaseInventory appleIPhone bestbuy 1
+CustomerPurchase appleIPhone amazon 1
+CustomerPurchase appleIPhone bestbuy 2
+CustomerPurchase appleIPhone applestore 5
+DisplaySellerList
