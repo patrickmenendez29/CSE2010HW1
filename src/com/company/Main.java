@@ -1,76 +1,115 @@
 package com.company;
 
+import javax.swing.*;
+import java.util.HashMap;
 import java.util.Scanner;
 
 class Main {
-    static LinkedList products = new LinkedList();
+    static HashMap<String, LinkedList> products = new HashMap<>();
 
     public static void main(String[] args) {
 
 
-        /*
+
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()){
             parseArgument(scanner.nextLine());
         }
-        */
-
-
-        Node amazon = new Node("Amazon", 15, 10);
-        Node apple = new Node("Apple", 20, 10);
-        Node microsoft = new Node("Microsoft",  100, 10);
-        LinkedList list = new LinkedList();
-        list.insertInOrder(amazon);
-        list.insertInOrder(apple);
-        list.insertInOrder(microsoft);
-        list.printList();
 
     }
 
-    public static void parseArgument(String arg){
-        String[] keywords = arg.split(" ");
-        if (keywords.length <= 4){
+    public static void parseArgument(String line){
+        String[] keywords = line.split(" ");
 
-            String command = keywords[0];
-            String item = keywords[1];
-            String seller = keywords[2];
-            String amount = keywords[3];
-
-            executeCommand(command, item, seller, amount);
-
-        } else if (keywords.length == 1){
-            products.displaySellerList();
+        if (keywords.length == 0){
+            System.out.println("Something went wrong, please try again");
+            return;
         }
-    }
-
-    public static void executeCommand(String command, String ... args){
         String seller;
+        String productName;
+        double price;
+        double shippingCost;
+        double minimumForFreeShipping;
+        int quantity;
 
-        switch (command) {
-            case "IncreaseInventory":
-                String quantity = args[3];
-                products.increaseInventory(command, quantity);
-            break;
-            case "CustomerPurchase":
-                seller = args[1];
-                String amount = args[3];
-                products.customerPurchase(seller, amount);
-            break;
-            case "SetShippingCost":
-                seller = args[1];
-                String shippingCost = args[2];
-                String minimumForFreeShipping = args[3];
-                products.setShippingCost(seller, shippingCost, minimumForFreeShipping);
-            break;
+        switch (keywords[0]){
+
             case "SetProductPrice":
-                seller = args[1];
-                String price = args[3];
-                products.setProductPrice(seller, price);
-            break;
+                if (keywords.length != 4){
+                    System.out.println("Invalid Arguments, please try again");
+                    break;
+                }
+                productName = keywords[1];
+                if (!products.containsKey(productName)){
+                    products.put(productName, new LinkedList());
+                }
+
+                    seller = keywords[2];
+                price =  Double.parseDouble(keywords[3]);
+                products.get(productName).setProductPrice(seller, price);
+                break;
+
+            case "SetShippingCost":
+                if (keywords.length != 4){
+                    System.out.println("Invalid Arguments, please try again");
+                    break;
+                }
+                seller = keywords[1];
+                shippingCost = Double.parseDouble(keywords[2]);
+                minimumForFreeShipping = Double.parseDouble(keywords[3]);
+                // TODO: implement seller
+                break;
+
+            case "IncreaseInventory":
+                if (keywords.length != 4){
+                    System.out.println("Invalid Arguments, please try again");
+                    break;
+                }
+                productName = keywords[1];
+                if (!products.containsKey(productName)){
+                    System.out.println("Product does not exist");
+                    return;
+                }
+
+                    seller = keywords[2];
+                quantity = Integer.parseInt(keywords[3]);
+                products.get(productName).increaseInventory(seller, quantity);
+                break;
+
+            case "CustomerPurchase":
+                if (keywords.length != 4){
+                    System.out.println("Invalid Arguments, please try again");
+                    break;
+                }
+                productName = keywords[1];
+                if (!products.containsKey(productName)){
+                    System.out.println("Product does not exist");
+                    return;
+                }
+                seller = keywords[2];
+                quantity = Integer.parseInt(keywords[3]);
+                products.get(productName).customerPurchase(seller, quantity);
+                break;
+
+            case "DisplaySellerList":
+                if (keywords.length != 2){
+                    System.out.println("Invalid Arguments, please try again");
+                    break;
+                }
+                productName = keywords[1];
+                if (!products.containsKey(productName)){
+                    System.out.println("Product does not exist");
+                    return;
+                }
+                products.get(productName);
+                break;
+
             default:
-                System.out.println("Parsing error, unknown command");
+                System.out.println("Invalid argument, please try again");
+                break;
         }
     }
+
 
 
 

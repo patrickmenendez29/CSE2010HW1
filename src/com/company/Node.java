@@ -6,6 +6,7 @@ class Node {
     String sellerName;
     double productPrice;
     double shippingcost;
+    int inventory = 0;
 
     public Node(String sellerName, double productPrice, double shippingCost){
 
