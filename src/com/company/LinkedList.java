@@ -5,7 +5,6 @@ class LinkedList {
 
     Node head = null;
     Node tail = null;
-    String productName;
 
     public void insertInOrder(Node node){
         if (head == null){
@@ -13,32 +12,25 @@ class LinkedList {
             return;
         }
 
-        if (head.getTotalCost() > node.getTotalCost()){
-            node.next = head;
-            head = node;
-            return;
-        }
-
-            Node current = head;
-            Node next = current.next;
-
-            if (next == null){
-                current.next = node;
-                return;
-
-            }
-            while (next.next != null){
-
-                if (next.getTotalCost() > node.getTotalCost()){
-                    // change pointers
+        switch (head.compareTo(node)){
+            // head's value is less than
+            case -1:
+                node.next = head;
+                head = node;
+                break;
+            // head's value is greater or equal to
+            case 0:
+            case 1:
+                Node current = head;
+                while (current.next != null && current.next.compareTo(node) < 0){
+                    current = current.next;
                     node.next = current.next;
                     current.next = node;
                 }
-                current = current.next;
-                next = next.next;
-            }
-            next.next = node;
+                break;
+            // default case ignored to improve readability
 
+        }
 
     }
 
@@ -62,8 +54,6 @@ class LinkedList {
         }
    }
 
-
-
     public void pop() {
         Node current = head;
         Node potentialTail = current;
@@ -85,12 +75,12 @@ class LinkedList {
     public void printList(){
         Node current = head;
         while (current != null){
-            System.out.println(current.sellerName);
+            System.out.println(current);
             current = current.next;
         }
     }
 
-    private Node search(String seller){
+    public Node search(String key){
 
         if (head == null){
             return null;
@@ -99,7 +89,7 @@ class LinkedList {
         Node current = head;
         while (current != null){
 
-            if (current.sellerName.equals(seller)){
+            if (current.key.equals(key)){
                 return current;
             }
             current = current.next;
@@ -108,52 +98,7 @@ class LinkedList {
 
     }
 
-    public void setProductPrice(String seller, double price){
-        Node node = search(seller);
-        if (node == null){
-            System.out.println("Seller not found");
-            return;
-        }
 
-        node.productPrice = price;
-        System.out.printf("setProductPrice %s %s %s\n", productName, seller, price);
-    }
-
-    public void setShippingCost(String seller, String shippingCost, String minimumForFreeShipping){
-        System.out.printf("SetShippingCost %s %s %s\n", seller, shippingCost, minimumForFreeShipping);
-    }
-
-    public void increaseInventory(String seller, int quantity){
-        Node node = search(seller);
-        if (node == null){
-            System.out.println("Seller, not found");
-            return;
-        }
-
-        node.inventory += quantity;
-        System.out.printf("IncreaseInventory %s %s %s %s\n", productName, seller, quantity, node.inventory);
-    }
-
-    public void customerPurchase(String seller, int quantity){
-
-        int sellerInventory = 0;
-        Node node = search(seller);
-
-        if (sellerInventory <= quantity){
-            throw new NotEnoughInventoryError();
-        }
-        if (node == null){
-            System.out.println("Seller not found");
-            return;
-        }
-
-        node.inventory -= quantity;
-        System.out.printf("CustomerPurchase %s %s %s %s\n", productName, seller, quantity, node.inventory);
-    }
-
-    public void displaySellerList(){
-        System.out.printf("%s %s %s %s", "seller", "productPrice", "shippingCost", "totalCost");
-    }
 
 
 

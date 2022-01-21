@@ -1,23 +1,17 @@
 package com.company;
 
-class Node {
+abstract class Node implements Comparable<Node> {
+
     Node next;
+    public String key;
 
-    String sellerName;
-    double productPrice;
-    double shippingcost;
-    int inventory = 0;
-
-    public Node(String sellerName, double productPrice, double shippingCost){
-
-        this.sellerName = sellerName;
-        this.productPrice = productPrice;
-        this.shippingcost = shippingCost;
-
+    public Node(String key){
+        this.key = key;
     }
 
-    public double getTotalCost() {
-        return productPrice + shippingcost;
-    }
 
+    @Override
+    public int compareTo(Node o) {
+        return 0;
+    }
 }
