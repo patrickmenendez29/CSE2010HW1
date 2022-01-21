@@ -44,16 +44,20 @@ class Main {
                     break;
                 }
 
-
                 productName = keywords[1];
-                product = (Product) products.search(productName);
-                if (product == null){
-                    product = new Product(productName);
-                    products.insertInOrder(product);
-                }
                 seller = keywords[2];
                 price =  Double.parseDouble(keywords[3]);
+
+                product = (Product) products.search(productName);
+                // if the product has not been added yet, add it to the linkedlist
+                if (product == null){
+                    product = new Product(productName);
+                    products.insert(product); // insert the product, no order needed
+                }
+
                 product.setProductPrice(seller, price);
+                System.out.printf("setProductPrice %s %s %s\n", productName, seller, price);
+
                 break;
 
             case "SetShippingCost":
@@ -62,9 +66,10 @@ class Main {
                     break;
                 }
                 seller = keywords[1];
+
                 shippingCost = Double.parseDouble(keywords[2]);
                 minimumForFreeShipping = Double.parseDouble(keywords[3]);
-                // TODO: implement seller
+                //product.setShippingCost(seller, shippingCost, minimumForFreeShipping);
                 break;
 
             case "IncreaseInventory":

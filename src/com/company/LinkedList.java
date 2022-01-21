@@ -7,30 +7,42 @@ class LinkedList {
     Node tail = null;
 
     public void insertInOrder(Node node){
+
         if (head == null){
             head = node;
             return;
         }
 
-        switch (head.compareTo(node)){
-            // head's value is less than
-            case -1:
-                node.next = head;
-                head = node;
-                break;
-            // head's value is greater or equal to
-            case 0:
-            case 1:
-                Node current = head;
-                while (current.next != null && current.next.compareTo(node) < 0){
-                    current = current.next;
-                    node.next = current.next;
-                    current.next = node;
-                }
-                break;
-            // default case ignored to improve readability
+        int comparison = head.compareTo(node);
 
+        if (comparison < 0){
+            node.next = head;
+            head = node;
+
+        } else {
+            Node current = head;
+            while (current.next != null && current.next.compareTo(node) < 0){
+                current = current.next;
+                node.next = current.next;
+                current.next = node;
+            }
         }
+
+
+    }
+
+    // insert element without order (no need to use compareTo)
+    public void insert(Node node){
+        if (head == null){
+            head = node;
+            return;
+        }
+        Node current = head;
+
+        while (current.next != null){
+            current = current.next;
+        }
+        current.next = node;
 
     }
 
@@ -99,8 +111,32 @@ class LinkedList {
     }
 
 
+public int size(){
+        Node current = head;
+        int res = 0;
+        while (current != null){
+            res++;
+            current = current.next;
+        }
+        return res;
+}
 
+    @Override
+    public String toString() {
+        Node current = head;
+        int currentIndex = 0;
+        StringBuilder builder = new StringBuilder();
 
+        while (current != null) {
 
+            builder.append(current.key);
+            currentIndex++;
+            if (currentIndex < size()){
 
+                builder.append(" < ");
+            }
+            current = current.next;
+        }
+        return builder.toString();
+    }
 }

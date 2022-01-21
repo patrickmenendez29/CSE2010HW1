@@ -1,8 +1,11 @@
 package com.company;
 
+import java.util.Comparator;
+
 public class Seller extends Node {
 
-    private String sellerName;
+
+    private final String sellerName;
     private double productPrice;
     private int inventory;
     private double minimumForFreeShipping;
@@ -11,7 +14,7 @@ public class Seller extends Node {
     public Seller(String sellerName, double productPrice, double shippingCost) {
         super(sellerName);
         inventory = 0;
-
+        this.sellerName = sellerName;
     }
 
     public void setShippingCost(double shippingCost, double minimumForFreeShipping){
@@ -22,6 +25,7 @@ public class Seller extends Node {
 
     public void setInventory(int updatedInventory){
         inventory = updatedInventory;
+
     }
 
 
@@ -44,5 +48,16 @@ public class Seller extends Node {
 
     public double getMinimumForFreeShipping() {
         return minimumForFreeShipping;
+    }
+
+    @Override
+    public String toString() {
+        return sellerName;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        Seller seller = (Seller) o;
+        return Double.compare(this.productPrice, seller.productPrice);
     }
 }
