@@ -8,26 +8,28 @@ class LinkedList {
 
     public void insertInOrder(Node node){
 
+        // base case
         if (head == null){
             head = node;
             return;
         }
-
-        int comparison = head.compareTo(node);
-
-        if (comparison < 0){
+        if (head.compareTo(node) > 0){
             node.next = head;
             head = node;
+            return;
+        }
+        Node current = head;
+        while (current.next != null){
 
-        } else {
-            Node current = head;
-            while (current.next != null && current.next.compareTo(node) < 0){
-                current = current.next;
+            if (current.next.compareTo(node) > 0){
                 node.next = current.next;
                 current.next = node;
+                return;
             }
-        }
+            current = current.next;
 
+        }
+        current.next = node;
 
     }
 
@@ -85,11 +87,11 @@ class LinkedList {
     }
 
     public void printList(){
-        Node current = head;
-        while (current != null){
-            System.out.println(current);
-            current = current.next;
-        }
+         if (head instanceof Product) {
+             ((Product) head).displaySellerList();
+        } else {
+             System.out.println("Invalid type of linkedlist for this command");
+         }
     }
 
     public Node search(String key){

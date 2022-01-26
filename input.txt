@@ -12,4 +12,4 @@ IncreaseInventory appleIPhone bestbuy 1
 CustomerPurchase appleIPhone amazon 1
 CustomerPurchase appleIPhone bestbuy 2
 CustomerPurchase appleIPhone applestore 5
-DisplaySellerList
+DisplaySellerList appleIPhone

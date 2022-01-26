@@ -10,17 +10,20 @@ class Main {
     public static void main(String[] args) {
 
         LinkedList products = new LinkedList();
+        LinkedList sellers = new LinkedList();
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()){
-            parseArgument(scanner.nextLine(), products);
+            String line = scanner.nextLine();
+            System.out.println("Input: " + line);
+            parseArgument(line, products, sellers);
         }
 
     }
 
 
 
-    public static void parseArgument(String line, LinkedList products){
+    public static void parseArgument(String line, LinkedList products, LinkedList sellers){
         String[] keywords = line.split(" ");
 
         if (keywords.length == 0){
@@ -48,15 +51,22 @@ class Main {
                 seller = keywords[2];
                 price =  Double.parseDouble(keywords[3]);
 
-                product = (Product) products.search(productName);
                 // if the product has not been added yet, add it to the linkedlist
-                if (product == null){
-                    product = new Product(productName);
-                    products.insert(product); // insert the product, no order needed
-                }
 
-                product.setProductPrice(seller, price);
-                System.out.printf("setProductPrice %s %s %s\n", productName, seller, price);
+                Seller sellerObj = (Seller) sellers.search(seller);
+
+                if (sellerObj == null){
+                    sellerObj = new Seller(seller, price, 0);
+                    sellers.insert(sellerObj);
+                    System.out.println(sellers);
+                } else {
+                    sellerObj.setProductPrice(price);
+                }
+                product = new Product(productName);
+                product.setProductPrice(sellerObj, price);
+
+                products.insert(product); // insert the product, no order needed
+                System.out.printf("setProductPrice %s %s %s\n", productName, seller, sellerObj.getProductPrice());
 
                 break;
 
@@ -69,7 +79,11 @@ class Main {
 
                 shippingCost = Double.parseDouble(keywords[2]);
                 minimumForFreeShipping = Double.parseDouble(keywords[3]);
-                //product.setShippingCost(seller, shippingCost, minimumForFreeShipping);
+                Seller sellerObject  = (Seller) sellers.search(seller);
+                if (sellerObject == null){
+                    return;
+                }
+                sellerObject.setShippingCost(shippingCost, minimumForFreeShipping);
                 break;
 
             case "IncreaseInventory":
@@ -122,6 +136,7 @@ class Main {
                     System.out.println("Product does not exist");
                     return;
                 }
+                product.displaySellerList();
                 break;
 
             default:

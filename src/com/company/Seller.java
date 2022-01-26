@@ -20,6 +20,7 @@ public class Seller extends Node {
     public void setShippingCost(double shippingCost, double minimumForFreeShipping){
         this.shippingcost = shippingCost;
         this.minimumForFreeShipping = minimumForFreeShipping;
+        System.out.printf("SetShippingCost %s %s %s\n", sellerName, shippingCost, minimumForFreeShipping);
 
     }
 
@@ -28,6 +29,10 @@ public class Seller extends Node {
 
     }
 
+
+    public double getShippingcost() {
+        return shippingcost;
+    }
 
     public void setProductPrice(double productPrice){
         this.productPrice = productPrice;
@@ -50,6 +55,9 @@ public class Seller extends Node {
         return minimumForFreeShipping;
     }
 
+    public double getTotalCost() {
+        return shippingcost + productPrice;
+    }
     @Override
     public String toString() {
         return sellerName;
@@ -58,6 +66,6 @@ public class Seller extends Node {
     @Override
     public int compareTo(Node o) {
         Seller seller = (Seller) o;
-        return Double.compare(this.productPrice, seller.productPrice);
+        return Double.compare(this.getProductPrice(), seller.getProductPrice());
     }
 }
